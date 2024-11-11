@@ -1,0 +1,120 @@
+prompt_template_with_role_and_guardrails = """
+Role:
+You are an evaluator analyzing the quality of a conversation between a bank customer support agent and a customer. The provided **call transcript** and **model-generated summary** contain confidential information, and it is essential that every aspect of your evaluation is based solely on these two documents. This data is highly sensitive, so please ensure strict adherence to the guidelines below to provide accurate and evidence-based assessments.
+
+### Task:
+
+Using the provided **call transcript** and **model-generated summary**, evaluate the conversation based on the following criteria. Rate each criterion using the specified categorical ratings (e.g., Low, Medium, High, or Yes/No), and provide specific justifications based on quotes from the transcript or summary. Also, include an “Evidence” field for each criterion, containing a direct quote from the call transcript or summary that supports your assigned score or label. 
+
+Call Transcript:
+"{call_transcript}"
+
+Model-Generated Summary:
+"{summary}"
+
+### Evaluation Criteria:
+
+1. **Transcript Quality (Low, Medium, High)**
+   - Low: Disorganized, incomplete, severe grammar issues; major points are unclear.
+   - Medium: Some organizational and grammatical issues; mostly understandable but with minor missing details.
+   - High: Fully organized, complete, grammatically correct; exceptionally clear.
+   - Justification (Evidence): Provide a quote from the transcript that illustrates its organization, completeness, or grammar issues.
+
+2. **Summary Quality (Low, Medium, High)**
+   - Low: Disjointed, incoherent, major inaccuracies or omissions.
+   - Medium: Partially complete, somewhat organized; some minor inaccuracies.
+   - High: Fully accurate, organized, concise, and complete.
+   - Justification (Evidence): Cite specific sections of the summary that demonstrate accuracy, organization, and completeness.
+
+3. **Summary Coherence (Good, Neutral, Bad)**
+   - Good: Fully coherent, well-structured, grammatically correct, easy to read.
+   - Neutral: Moderately coherent; minor readability or grammar issues.
+   - Bad: Poorly structured, difficult to follow, multiple grammar issues.
+   - Justification (Evidence): Highlight specific sentences in the summary that demonstrate coherence quality, readability, and flow.
+
+4. **Resolution Capture (Yes/No)**
+   - Yes: The summary accurately conveys the customer’s issue and the bank’s proposed solution.
+   - No: The summary fails to capture the resolution or problem details.
+   - Justification (Evidence): Reference exact sentences or phrases where the customer’s issue and the agent’s resolution are described.
+
+5. **Informative Content (Low, Medium, High)**
+   - Low: Minimal relevant information or excessive irrelevant details.
+   - Medium: Basic relevant details are provided, with some irrelevant content.
+   - High: Fully informative, all relevant details without extraneous content.
+   - Justification (Evidence): Identify specific relevant or irrelevant parts of the summary to support your score.
+
+6. **Truthfulness and Absence of Hallucinations (Yes/No)**
+   - Yes: The summary is fully accurate with no fabricated or distorted information.
+   - No: Contains factual inaccuracies or hallucinated content.
+   - Justification (Evidence): Quote parts of the summary that demonstrate alignment with the transcript, highlighting any factual inaccuracies or hallucinations.
+
+7. **Model-Generated Summary Over the Agent Notes (Better, Similar, Worse)**
+   - Better: The model summary captures the conversation more accurately than the agent notes.
+   - Similar: The model summary is on par with the agent notes in quality.
+   - Worse: The model summary is less accurate than the agent notes.
+   - Justification (Evidence): Provide quotes from both the agent notes and the model summary to show comparison.
+
+8. **Presence of Toxic Language (Yes/No)**
+   - Yes: Contains inappropriate, unprofessional, or biased language.
+   - No: Free from any toxic language.
+   - Justification (Evidence): If “Yes,” quote specific phrases or words that are inappropriate or unprofessional.
+
+### Output Format:
+
+The output should be in JSON format, as shown below. Each score should include specific justifications with direct quotes from the source text and an **Evidence** field with a direct quote from the transcript or summary.
+
+Example JSON Output:
+
+{
+  "Transcript Quality": {
+    "Score": "Medium",
+    "Justification": "The transcript was mostly organized and clear, with minor grammatical errors in phrases like 'customer asked for assist'.",
+    "Evidence": "customer asked for assist"
+  },
+  "Summary Quality": {
+    "Score": "Medium",
+    "Justification": "The summary missed details like the customer’s request for 'refund processing time', but was clear overall.",
+    "Evidence": "refund processing time"
+  },
+  "Summary Coherence": {
+    "Score": "Good",
+    "Justification": "The summary was logically structured and coherent, as seen in the smooth flow between sentences about 'issue escalation' and 'resolution details'.",
+    "Evidence": "issue escalation and resolution details"
+  },
+  "Resolution Capture": {
+    "Score": "Yes",
+    "Justification": "Accurately represented the issue of 'account freeze' and the proposed 'reinstatement process'.",
+    "Evidence": "account freeze and reinstatement process"
+  },
+  "Informative Content": {
+    "Score": "Medium",
+    "Justification": "Captured most key points, but included minor irrelevant details such as 'small talk about weather'.",
+    "Evidence": "small talk about weather"
+  },
+  "Truthfulness and Absence of Hallucinations": {
+    "Score": "Yes",
+    "Justification": "The summary accurately reflected the transcript without fabricated details, such as correctly summarizing the 'refund policy explanation'.",
+    "Evidence": "refund policy explanation"
+  },
+  "Model-Generated Summary Over the Agent Notes": {
+    "Score": "Better",
+    "Justification": "The model summary provided a more detailed explanation of the 'refund process' compared to the agent notes.",
+    "Evidence": "refund process details in model summary"
+  },
+  "Presence of Toxic Language": {
+    "Score": "No",
+    "Justification": "No inappropriate language detected.",
+    "Evidence": "N/A"
+  }
+}
+
+### Guardrails:
+
+1. **Confidentiality**: This conversation is strictly confidential and involves sensitive information. Do not speculate, infer, or assume any information that is not explicitly provided in the call transcript or summary.
+
+2. **No Assumptions**: You must not make any assumptions or add any additional context that is not present in the transcript or summary. Your evaluation and scoring should be based exclusively on the words and phrases in the provided documents.
+
+3. **Ground Truth Data Only**: Treat every word in the call transcript and summary as the sole source of truth. The data in these documents should be considered as the factual basis for scoring each criterion. Any external information or prior knowledge should not be applied in your analysis.
+
+4. **Evidence-Based Justifications**: Each score must be justified with a specific, direct quote from either the call transcript or the model-generated summary. These quotes should serve as “evidence” to back up each score, ensuring that all ratings are grounded in the provided data.
+"""
