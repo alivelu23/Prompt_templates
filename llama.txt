@@ -1,74 +1,58 @@
-Understood! Here’s an approach that uses the transcript itself as evidence for each misspelled word, showcasing exactly where and how often each misspelling appears within the transcript.
+Role:
+Take on the role of a data analyst tasked with assessing the quality of a call transcript by identifying and quantifying misspelled words within the text.
 
-Prompt:
-	1.	Identify Misspelled Words and Locate Occurrences in Transcript:
-	•	Parse the transcript to identify misspelled words.
-	•	For each misspelled word, find all instances in the transcript and capture the specific text surrounding each occurrence as evidence (e.g., the sentence or phrase containing the misspelling).
-	2.	Calculate Misspelling Density:
-	•	Calculate misspelling_density as the number of misspelled words per 100 words in the transcript:
+Task:
+	1.	Identify Misspelled Words:
+	•	Parse the entire transcript to detect all misspelled words.
+	•	For each detected misspelling, count its occurrences within the transcript.
+	2.	Calculate Total Misspellings and Misspelling Density:
+	•	Calculate the total_misspelled_words by summing the occurrences of all misspelled words.
+	•	Calculate the misspelling_density (misspellings per 100 words) as:
 ￼
-	3.	Grade Transcript Quality:
-	•	Based on misspelling_density, assign a quality grade:
-	•	Excellent: 0 - 0.5 misspellings per 100 words
-	•	Good: 0.6 - 1.5 misspellings per 100 words
-	•	Fair: 1.6 - 3 misspellings per 100 words
-	•	Poor: More than 3 misspellings per 100 words
-	4.	Generate JSON Output with In-Document Evidence:
-	•	Format the JSON output to include the quality grade, misspelling density, and a list of misspelled words with evidence from the transcript itself:
+	•	Note: total_words represents the overall word count in the transcript.
+
+Criteria:
+	•	Only use the content of the transcript itself as the source; do not reference or rely on any external dictionaries or resources.
+	•	Provide output that lists each unique misspelled word along with its number of occurrences, the total_misspelled_words, and the calculated misspelling_density.
+	•	Ensure the output format is simple and machine-readable for further analysis if needed.
+
+Format of Output:
+Structure the output in JSON format, including the following keys:
+	•	misspelled_words: a list of objects, each containing:
+	•	word: the misspelled word
+	•	occurrences: the number of times the word appears in the transcript
+	•	total_misspelled_words: an integer representing the total number of misspelled words
+	•	misspelling_density: a float representing the density of misspellings per 100 words
 
 {
-  "transcript_quality": {
-    "misspelling_density": "<misspellings_per_100_words>",
-    "grade": "<quality_grade>",
-    "misspelled_words": [
-      {
-        "word": "<misspelled_word>",
-        "occurrences": <count>,
-        "evidence": [
-          "<text_snippet_with_misspelling_1>",
-          "<text_snippet_with_misspelling_2>",
-          ...
-        ]
-      },
-      ...
-    ]
-  }
+  "misspelled_words": [
+    {
+      "word": "<misspelled_word>",
+      "occurrences": <count>
+    },
+    ...
+  ],
+  "total_misspelled_words": <total_count>,
+  "misspelling_density": "<misspellings_per_100_words>"
 }
-
-
-	•	Each misspelled_word entry should include:
-	•	word: the misspelled word
-	•	occurrences: total frequency in the transcript
-	•	evidence: an array of text snippets from the transcript where the misspelling occurs, giving context for each occurrence
 
 Example Output:
 
-If a transcript has a misspelling density of 1.2, the JSON might look like this:
+If a 500-word transcript contains two misspelled words (“Bankk” and “recieve”) with 3 total occurrences, the output might look like:
 
 {
-  "transcript_quality": {
-    "misspelling_density": "1.2",
-    "grade": "Good",
-    "misspelled_words": [
-      {
-        "word": "teh",
-        "occurrences": 3,
-        "evidence": [
-          "I saw teh report this morning.",
-          "Teh main issue was not addressed.",
-          "He mentioned teh solution would be simple."
-        ]
-      },
-      {
-        "word": "recieve",
-        "occurrences": 2,
-        "evidence": [
-          "We will recieve the documents tomorrow.",
-          "Please let me know when you recieve it."
-        ]
-      }
-    ]
-  }
+  "misspelled_words": [
+    {
+      "word": "Bankk",
+      "occurrences": 2
+    },
+    {
+      "word": "recieve",
+      "occurrences": 1
+    }
+  ],
+  "total_misspelled_words": 3,
+  "misspelling_density": "0.6"
 }
 
-This approach ensures that each misspelled word is supported by contextual evidence from the transcript itself, giving clarity to where and how often each misspelling appears. Let me know if this aligns with your requirements!
+This format ensures clarity and usability, providing a straightforward way to measure transcript quality based on misspellings alone. Let me know if this meets your requirements!
