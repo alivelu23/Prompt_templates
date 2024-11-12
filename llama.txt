@@ -1,0 +1,74 @@
+Understood! Here’s an approach that uses the transcript itself as evidence for each misspelled word, showcasing exactly where and how often each misspelling appears within the transcript.
+
+Prompt:
+	1.	Identify Misspelled Words and Locate Occurrences in Transcript:
+	•	Parse the transcript to identify misspelled words.
+	•	For each misspelled word, find all instances in the transcript and capture the specific text surrounding each occurrence as evidence (e.g., the sentence or phrase containing the misspelling).
+	2.	Calculate Misspelling Density:
+	•	Calculate misspelling_density as the number of misspelled words per 100 words in the transcript:
+￼
+	3.	Grade Transcript Quality:
+	•	Based on misspelling_density, assign a quality grade:
+	•	Excellent: 0 - 0.5 misspellings per 100 words
+	•	Good: 0.6 - 1.5 misspellings per 100 words
+	•	Fair: 1.6 - 3 misspellings per 100 words
+	•	Poor: More than 3 misspellings per 100 words
+	4.	Generate JSON Output with In-Document Evidence:
+	•	Format the JSON output to include the quality grade, misspelling density, and a list of misspelled words with evidence from the transcript itself:
+
+{
+  "transcript_quality": {
+    "misspelling_density": "<misspellings_per_100_words>",
+    "grade": "<quality_grade>",
+    "misspelled_words": [
+      {
+        "word": "<misspelled_word>",
+        "occurrences": <count>,
+        "evidence": [
+          "<text_snippet_with_misspelling_1>",
+          "<text_snippet_with_misspelling_2>",
+          ...
+        ]
+      },
+      ...
+    ]
+  }
+}
+
+
+	•	Each misspelled_word entry should include:
+	•	word: the misspelled word
+	•	occurrences: total frequency in the transcript
+	•	evidence: an array of text snippets from the transcript where the misspelling occurs, giving context for each occurrence
+
+Example Output:
+
+If a transcript has a misspelling density of 1.2, the JSON might look like this:
+
+{
+  "transcript_quality": {
+    "misspelling_density": "1.2",
+    "grade": "Good",
+    "misspelled_words": [
+      {
+        "word": "teh",
+        "occurrences": 3,
+        "evidence": [
+          "I saw teh report this morning.",
+          "Teh main issue was not addressed.",
+          "He mentioned teh solution would be simple."
+        ]
+      },
+      {
+        "word": "recieve",
+        "occurrences": 2,
+        "evidence": [
+          "We will recieve the documents tomorrow.",
+          "Please let me know when you recieve it."
+        ]
+      }
+    ]
+  }
+}
+
+This approach ensures that each misspelled word is supported by contextual evidence from the transcript itself, giving clarity to where and how often each misspelling appears. Let me know if this aligns with your requirements!
