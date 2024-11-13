@@ -1,0 +1,131 @@
+
+
+“Analyze the following transcript of a conversation between a customer and a bank agent. Identify each instance where an utterance is incoherent, confusing, or lacks context, disrupting the logical flow of the conversation. Label each incoherent occurrence as ‘Conversation X’ and provide the specific utterance text that is incoherent. Use the following output format to document these findings in JSON format:
+
+{
+  "incoherent_conversations": {
+    "conversation_1": "incoherent utterance in conversation 1",
+    "conversation_2": "incoherent utterance in conversation 2",
+    "conversation_3": "incoherent utterance in conversation 3",
+    ...
+  }
+}
+
+Instructions for Analysis:
+	1.	Review each line or turn in the transcript and determine if it introduces incoherence or confusion.
+	2.	Capture incoherence caused by unclear phrases, context gaps, ambiguous responses, or irrelevant information that might impede effective communication.
+	3.	Each incoherent utterance should be documented under a unique key (e.g., ‘conversation_1’, ‘conversation_2’, etc.) within the incoherent_conversations object in JSON format.
+	4.	Exclude coherent and clearly articulated parts of the conversation from this output.
+
+Transcript:
+[Insert conversation transcript here]
+
+Example Output (JSON format):
+
+{
+  "incoherent_conversations": {
+    "conversation_1": "I'm not sure what you're asking here.",
+    "conversation_2": "What do you mean by 'process the account with a flag?'",
+    "conversation_3": "I don't understand if you need assistance with your balance or something else.",
+    ...
+  }
+}
+Here is a structured prompt template for identifying incoherent utterances in a customer-bank agent conversation, with JSON output format for clear documentation:
+
+Structured Prompt Template:
+
+“Analyze the following transcript of a conversation between a customer and a bank agent. Identify each instance where an utterance is incoherent, confusing, or lacks clarity, causing a disruption in the logical flow of the conversation. Output your findings in JSON format as specified below:
+
+Output Format:
+
+{
+  "incoherent_conversations": {
+    "conversation_1": "incoherent utterance in conversation 1",
+    "conversation_2": "incoherent utterance in conversation 2",
+    "conversation_3": "incoherent utterance in conversation 3",
+    ...
+  }
+}
+
+Instructions:
+	1.	Review each line or turn in the transcript to determine if it causes confusion, lacks context, or contains unclear phrasing.
+	2.	For each incoherent occurrence, assign it a unique key (e.g., ‘conversation_1’, ‘conversation_2’, etc.) within the incoherent_conversations object.
+	3.	Exclude any utterances that are clear and logically contribute to the conversation.
+
+Transcript:
+[Insert conversation transcript here]
+
+Example Output:
+
+{
+  "incoherent_conversations": {
+    "conversation_1": "Can you clarify what you mean by 'flag the transaction'?",
+    "conversation_2": "I don't know what you mean by 'check on the status quickly'.",
+    "conversation_3": "I'm not sure how I can help you with 'get the number to the account'.",
+    ...
+  }
+}
+
+Certainly. Here’s a detailed, structured prompt for identifying incoherent utterances in a transcript between a bank agent and a customer. This version includes role definitions, clear instructions, example outputs, guardrails, and emphasizes the limitations to avoid assumptions.
+
+Structured Prompt Template
+
+Role:
+You are an AI language model assigned the task of analyzing a transcript between a customer and a bank agent. Your objective is to identify incoherent, unclear, or contextually confusing utterances from either speaker.
+
+Task:
+Identify each incoherent occurrence within the conversation, specifically any phrase, sentence, or response that lacks clarity or disrupts the logical flow, potentially confusing the listener. Each incoherent utterance should be extracted and labeled clearly.
+
+Instructions:
+	1.	Review the Transcript: Go through each line or turn in the conversation transcript.
+	2.	Identify Incoherence: Locate utterances that:
+	•	Lack clarity, context, or specificity.
+	•	Contain ambiguous or confusing terms.
+	•	Disrupt the logical flow of the conversation.
+	3.	Document Incoherent Utterances in JSON Format: Each incoherent occurrence should be represented with a unique key (conversation_1, conversation_2, etc.) under an incoherent_conversations object. Provide only the exact text of the incoherent utterance.
+	4.	Avoid Assumptions: Only document explicit instances of incoherence within the transcript as presented. Do not make assumptions, infer missing information, or interpret implied meanings.
+
+Process:
+	1.	Read each line in the transcript carefully, considering if the message would be confusing or unclear to the average person in this context.
+	2.	Extract incoherent utterances and assign each a unique label in JSON format under incoherent_conversations.
+	3.	Exclude coherent, logical exchanges that contribute clearly to the conversation.
+
+Output Format:
+
+{
+  "incoherent_conversations": {
+    "conversation_1": "incoherent utterance in conversation 1",
+    "conversation_2": "incoherent utterance in conversation 2",
+    "conversation_3": "incoherent utterance in conversation 3",
+    ...
+  }
+}
+
+Example Input Transcript:
+
+Customer: I’d like to know my account balance.
+Agent: Sure, but can you clarify if you mean “flagging” in your request?
+Customer: I didn’t say anything about a flag.
+Agent: Oh, my apologies. How can I assist with the balance on the flagged account?
+Customer: I don’t know what you’re talking about.
+Agent: Alright, could you also let me know your “process” for the account?
+Customer: I’m just here to check my balance, not a process.
+Agent: Okay, let me check the balance on the account. One moment please.
+
+Limitations and Guardrails:
+	1.	Avoid Adding Context: Only use the information explicitly stated in the transcript.
+	2.	Do Not Make Assumptions: Do not interpret what the speaker might mean if it’s not explicitly clear in their words.
+	3.	Focus Only on Incoherent Utterances: Any clear and logical responses that do not disrupt the flow should not be included.
+	4.	Maintain Objectivity: Avoid subjective judgments about tone or intent; focus strictly on clarity and coherence.
+
+Example Output (JSON):
+
+{
+  "incoherent_conversations": {
+    "conversation_1": "Sure, but can you clarify if you mean 'flagging' in your request?",
+    "conversation_2": "How can I assist with the balance on the flagged account?",
+    "conversation_3": "Alright, could you also let me know your 'process' for the account?"
+  }
+}
+
+This prompt ensures clear, structured extraction of incoherent utterances, maintaining focus on clarity and objectivity without assumptions.
